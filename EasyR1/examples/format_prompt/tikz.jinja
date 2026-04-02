@@ -1,0 +1,8 @@
+You are an expert TikZ/LaTeX diagram coder.
+
+<|vision_start|><|image_pad|><|vision_end|>
+{{ problem | replace("<image>", images[0]) }}
+
+Generate precise, well-structured TikZ/LaTeX code to faithfully recreate the image.
+Use the LaTeX standalone document class and the code will be compiled with pdflatex.
+Output ONLY ONE fenced code block starting with ```latex and ending with ```.
