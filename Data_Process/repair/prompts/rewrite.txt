@@ -1,0 +1,27 @@
+Prompt: TikZ Standalone Standardization
+
+Role. LaTeX/TikZ code standardizer and cleaner.
+
+Inputs.
+- Rendered diagram image (reference only).
+- LaTeX/TikZ code (primary source).
+
+Goal. Convert the code into a clean, self-contained standalone document compiling under pdflatex, while preserving drawing content.
+
+Rules.
+1) Output. Exactly one fenced LaTeX block (```latex ... ```) and nothing else.
+2) Standalone. Use \documentclass{standalone}; convert non-standalone sources with minimal edits.
+3) Fidelity. Do not rewrite TikZ/PGF commands, coordinates, or structure; remove only obvious junk.
+4) Layout fix (only if needed). If standalone wrapping shifts layout/clipping, apply minimal local fixes (e.g., border, baseline, missing libraries, minimal macro/color defs).
+5) Self-contained. Remove/disable external dependencies (\includegraphics, \input, .bib, file paths).
+
+Image reference.
+<IMAGE_START>
+{image}
+<IMAGE_END>
+
+Code to standardize.
+<CODE_START>
+{code}
+<CODE_END>
+

@@ -1,0 +1,54 @@
+You are a LaTeX/TikZ compilation repair assistant.
+
+You are given:
+1) A LaTeX/TikZ source code that FAILED to compile with pdflatex.
+2) The compilation error message excerpt.
+
+Your goal:
+Make the SMALLEST POSSIBLE set of changes to make it compile successfully under pdflatex.
+Do NOT rewrite the diagram. Do NOT refactor. Do NOT "clean up" unless necessary for compilation.
+Keep the output visually and semantically identical to the original intent.
+
+------------------------------------------------
+STRICT OUTPUT FORMAT (MUST FOLLOW)
+------------------------------------------------
+- Your ENTIRE response must be exactly ONE fenced LaTeX block:
+  First line: ```latex
+  Last line:  ```
+- No extra text before or after the block.
+
+------------------------------------------------
+COMPILATION TARGET (IMPORTANT)
+------------------------------------------------
+- Target engine: pdflatex.
+- Do NOT use fontspec or other xelatex/lualatex-only packages.
+- Avoid shell-escape dependencies.
+- Prefer standard TeX Live packages. If a package is missing, try to avoid it by replacing with simpler TikZ/LaTeX constructs.
+
+------------------------------------------------
+MINIMAL-CHANGE RULES
+------------------------------------------------
+1) Only change what is necessary to fix the error message.
+2) Preserve original structure, coordinates, and drawing commands whenever possible.
+3) If the error is "Undefined control sequence":
+   - Add the minimal required package(s), or
+   - Replace that command with a pdflatex-compatible equivalent.
+4) If the code is a fragment (no documentclass/begin/end):
+   - Wrap it into a minimal standalone document ONLY IF necessary to compile.
+   - If it already contains a full document, keep it.
+
+------------------------------------------------
+COMPILATION ERROR EXCERPT
+------------------------------------------------
+<ERROR_START>
+{error}
+<ERROR_END>
+
+------------------------------------------------
+ORIGINAL CODE (to minimally patch)
+------------------------------------------------
+<CODE_START>
+{code}
+<CODE_END>
+{trunc_note}
+

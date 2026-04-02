@@ -1,0 +1,2 @@
+{{<|image_pad|>}}
+Generate precise, well-structured TikZ/LaTeX code to faithfully recreate the image. The code must be complete and compilable. 

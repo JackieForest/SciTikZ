@@ -1,0 +1,37 @@
+Prompt: MLLM-as-a-Judge
+
+Role. Strict curator for scientific LaTeX/TikZ diagrams.
+
+Inputs. Rendered image and corresponding LaTeX/TikZ code (non-executable).
+
+Task. Inspect image and code together and rate the pair as a training example. You must output five integer scores (0--5):
+
+- correctness: Does the code and the image match in a complete, coherent, and self-consistent way? Check whether key elements in the image (nodes, edges, shapes, axes, labels, legends, annotations) are clearly supported by the code, and whether the code describes content that is actually visible in the image.
+
+- layout_precision: Evaluate how clean and technically precise the layout is, reasoning from both the rendered result and the coordinate/anchor logic in code (alignment, consistent spacing, well-controlled lines/curves, stable positioning rather than ad-hoc placement).
+
+- readability: In the image, assess whether labels and key visual elements are clearly visible without harmful overlap, occlusion, or excessive clutter; consider text size, collisions between labels/arrows/shapes, and whether the main structure remains easy to parse.
+
+- scientific_plausibility: Given the diagram type (geometry, physics setup, circuit, plot, flowchart, abstract math), judge whether the content is scientifically/logically sensible (reasonable relations/topology/flows), rather than arbitrary or nonsensical.
+
+- visual_complexity: Judge the non-triviality of the diagram structure: number of interrelated elements, layers, annotations, sub-structures, and whether it goes beyond a simple toy (single shape/line).
+
+Output (strict). The last line must be a single JSON object with exactly these keys:
+- correctness, layout_precision, readability, scientific_plausibility, visual_complexity, total_score
+
+All five scores are integers in [0,5], and total_score equals their sum. No extra keys. No fences. No text after the JSON.
+
+JSON schema example:
+{ "correctness":0, "layout_precision":0, "readability":0, "scientific_plausibility":0, "visual_complexity":0, "total_score":0 }
+
+Image.
+<IMAGE_START>
+{image}
+<IMAGE_END>
+
+Code.
+<CODE_START>
+{code}
+<CODE_END>
+{trunc_note}
+
