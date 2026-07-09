@@ -1,119 +1,112 @@
-# Scientific Graphics Program Synthesis with Dual Self-Consistency Reinforcement Learning
+<h1 align="center">
+Scientific Graphics Program Synthesis via Dual Self-Consistency Reinforcement Learning
+</h1>
 
-This repository provides the implementation and evaluation code for SciTikZ, a reinforcement learning framework for synthesizing LaTeX/TikZ code from scientific graphics images. The approach employs a dual self-consistency mechanism to improve both visual fidelity and code quality during training.
+<p align="center">
+  <b>Juekai Lin</b><sup>1,2</sup>,
+  <b>Yun Zhu</b><sup>2</sup>,
+  <b>Honglin Lin</b><sup>2,3</sup>,
+  <b>Sijing Li</b><sup>1</sup>,
+  <b>Tianwei Lin</b><sup>1</sup>,
+  <b>Zheng Liu</b><sup>2,4</sup>,
+  <b>Xiaoyang Wang</b><sup>2</sup>,
+  <b>Wenqiao Zhang</b><sup>1</sup>,
+  <b>Lijun Wu</b><sup>2</sup>
+</p>
+
+<p align="center">
+  <sup>1</sup>Zhejiang University &nbsp;&nbsp;
+  <sup>2</sup>Shanghai Artificial Intelligence Laboratory, OpenDataLab &nbsp;&nbsp;
+  <sup>3</sup>Shanghai Jiao Tong University &nbsp;&nbsp;
+  <sup>4</sup>Peking University
+</p>
+
+<p align="center">
+  <a href="https://arxiv.org/abs/2604.06079">
+    <img src="https://img.shields.io/badge/arXiv-2604.06079-b31b1b.svg" alt="arXiv">
+  </a>
+  <a href="https://huggingface.co/collections/JackieLin0123/scitikz">
+    <img src="https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Collection-yellow" alt="Hugging Face Collection">
+  </a>
+  <a href="https://github.com/JackieLin0123/SciTikZ">
+    <img src="https://img.shields.io/badge/GitHub-Code-black" alt="GitHub">
+  </a>
+</p>
+
+## Introduction
+
+This repository provides the implementation, data processing, training, and evaluation code for **SciTikZ**, a framework for synthesizing executable LaTeX/TikZ code from scientific graphics images.
+
+Scientific graphics program synthesis is challenging because TikZ requires precise coordinates, explicit symbolic primitives, strict package dependencies, and compilable code structure. To address these challenges, we introduce **Dual Self-Consistency Reinforcement Learning (DSC-RL)**, a closed-loop training framework that improves both visual fidelity and structural code quality through executable render-and-verify feedback.
+
+<p align="center">
+  <img src="assets/scitikz.png" width="95%" alt="SciTikZ Framework">
+</p>
 
 ## Overview
 
-The core contribution of this work is a dual self-consistency reinforcement learning framework that addresses the challenge of generating accurate LaTeX/TikZ code from scientific diagram images. The framework incorporates two complementary consistency mechanisms:
+The core contribution of this work is a dual self-consistency reinforcement learning framework for image-to-TikZ program synthesis. The framework integrates three complementary reward signals.
 
-**Visual Consistency**: The system ensures that the rendered output closely matches the input image by measuring semantic similarity using SIGLIP and structural similarity using LPIPS. This component of the reward function guides the model toward generating code that produces visually accurate outputs.
+#### Compilation Reward
 
-**Code Consistency**: To promote structural similarity between different code generations for the same input, we employ Token Edit Distance (TED) and CrystalBLEU metrics. This encourages the model to learn more robust and generalizable code patterns.
+Generated LaTeX/TikZ code is first compiled in a sandbox environment. Successfully compiled code receives a positive reward, while invalid or non-executable code is penalized. This encourages the model to generate complete, self-contained, and compilable TikZ programs.
 
-The overall reward function integrates three components: a binary compilation reward that indicates successful LaTeX compilation, a visual reward based on weighted SIGLIP and LPIPS similarity scores, and a code consistency reward that measures similarity between code variants using TED and CrystalBLEU.
+#### Visual Consistency Reward
 
-## Project Structure
+For successfully compiled code, the rendered image is compared with the input scientific graphic. We use:
 
-```
-Supplementary Material/
-├── EasyR1/                          # RL training framework
-│   ├── examples/
-│   │   ├── config.yaml              # Training configuration
-│   │   ├── qwen3_vl_8b_tikz_visual_grpo.sh  # Training script
-│   │   └── reward_function/
-│   │       └── tikz_self_consistency.py  # Main reward function
-│
-├── Data_Process/                     # Data processing pipeline
-│   ├── filter.ipynb                 # Data filtering
-│   ├── repair/                       # Code repair and distillation
-│   └── runtime_validation/           # Batch compilation validation
-│
-├── Benchmark_Eval/                  # Evaluation framework
-│   ├── api_tool/                    # API-based inference
-│   └── eval/                         # Evaluation metrics
-│
-└── LLaMa-Factory/                   # Model training utilities
+- **SigLIP** for high-level semantic alignment.
+- **LPIPS** for low-level structural and perceptual similarity.
+
+This reward guides the model toward producing code that renders visually faithful scientific diagrams.
+
+#### Code Self-Consistency Reward
+
+To improve structural robustness and reduce visually plausible but degenerate code, we introduce a round-trip self-consistency mechanism:
+
+```text
+Input Image → Generated TikZ Code → Rendered Image → Reconstructed TikZ Code
 ```
 
-## Installation
+The generated code and reconstructed code are compared using:
 
-### Prerequisites
+- **Token Edit Distance (TED)** for structural similarity.
+- **CrystalBLEU** for semantic code similarity while reducing boilerplate bias.
 
-The code requires Python 3.8 or higher and a CUDA-capable GPU for training. A LaTeX distribution (TeX Live) and ImageMagick are necessary for rendering TikZ code. For containerized training environments, Apptainer or Singularity is required.
+This encourages the model to generate TikZ code that is not only visually accurate but also structurally stable, editable, and reusable.
 
-### Setup
+## Main Results
 
-Install the required Python packages:
+<p align="center">
+  <img src="assets/main_results.png" width="95%" alt="Main Results">
+</p>
 
-```bash
-pip install torch torchvision transformers accelerate
-pip install lpips pytorch-msssim crystalbleu torchmetrics
-pip install pandas pyarrow pillow opencv-python
-pip install sacremoses pygments
+SciTikZer achieves strong performance on scientific graphics program synthesis, improving both compilation success rate and visual fidelity compared with general-purpose MLLMs and task-specific Image-to-TikZ baselines.
+
+## Qualitative Examples
+
+<p align="center">
+  <img src="assets/case.png" width="95%" alt="Qualitative Examples">
+</p>
+
+The qualitative examples show that SciTikZer better preserves geometric layout, symbolic structures, and fine-grained spatial relations in complex scientific graphics.  
+
+## Citation
+
+If you find this work useful, please cite:
+
+```bibtex
+@misc{lin2026scientificgraphicsprogramsynthesis,
+  title         = {Scientific Graphics Program Synthesis via Dual Self-Consistency Reinforcement Learning},
+  author        = {Juekai Lin and Yun Zhu and Honglin Lin and Sijing Li and Tianwei Lin and Zheng Liu and Xiaoyang Wang and Wenqiao Zhang and Lijun Wu},
+  year          = {2026},
+  eprint        = {2604.06079},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2604.06079}
+}
 ```
-
-Configure the following environment variables according to your system setup:
-
-```bash
-export SIF_PATH="/path/to/apptainer.sif"
-export MODEL_PATH="/path/to/model"
-export SIGLIP_MODEL_PATH="/path/to/siglip-model"
-export TORCH_HOME="/path/to/torch-cache"
-export HF_CACHE_ROOT="/path/to/hf-cache"
-export TRAIN_PARQUET="/path/to/train.parquet"
-export VAL_PARQUET="/path/to/val.parquet"
-export SAVE_DIR="/path/to/save/checkpoints"
-```
-
-## Usage
-
-### Training
-
-To start reinforcement learning training with the dual self-consistency reward function:
-
-```bash
-cd EasyR1/examples
-bash qwen3_vl_8b_self_consistancy_rl.sh
-```
-
-The training script includes pre-flight checks to verify environment configuration before beginning the training process.
-
-### Evaluation
-
-Run the evaluation pipeline:
-
-```bash
-cd Benchmark_Eval/eval
-
-export GT_ROOT="/path/to/ground-truth/images"
-export PRED_IMG="/path/to/predicted/images"
-export PRED_TEX="/path/to/predicted/code"
-export OUT_DIR="/path/to/results"
-
-bash eval.sh
-```
-
-### Data Processing
-
-Data filtering can be performed using the provided Jupyter notebook:
-
-```bash
-cd Data_Process
-jupyter notebook filter.ipynb
-```
-
-For batch compilation validation:
-
-```bash
-cd runtime_validation
-export DISTILL_BASE="/path/to/data"
-bash run.sh
-```
-
-## Evaluation Metrics
-
-The evaluation framework supports multiple metrics for assessing both image similarity and code similarity. Image similarity is measured using SigLIP, CLIP, LPIPS, SSIM, and DreamSim. Code similarity is evaluated using Token Edit Distance (TED) and CrystalBLEU.
 
 ## Acknowledgments
 
-We thank the developers of EasyR1/verl framework, HuggingFace Transformers, and the authors of CrystalBLEU, LPIPS, and SigLIP for providing the foundational tools and metrics used in this work.
+We thank the developers of EasyR1, verl, LLaMA-Factory, Hugging Face Transformers, CrystalBLEU, LPIPS, SigLIP, and related open-source tools for providing the infrastructure and evaluation components used in this work.
