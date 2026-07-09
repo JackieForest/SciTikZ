@@ -2,6 +2,7 @@
 Scientific Graphics Program Synthesis via Dual Self-Consistency Reinforcement Learning
 </h1>
 
+
 <p align="center">
   <b>Juekai Lin</b><sup>1,2</sup>,
   <b>Yun Zhu</b><sup>2</sup>,
@@ -33,7 +34,7 @@ Scientific Graphics Program Synthesis via Dual Self-Consistency Reinforcement Le
   </a>
 </p>
 
-## Introduction
+## 📌Introduction
 
 This repository provides the implementation, data processing, training, and evaluation code for **SciTikZ**, a framework for synthesizing executable LaTeX/TikZ code from scientific graphics images.
 
@@ -43,15 +44,15 @@ Scientific graphics program synthesis is challenging because TikZ requires preci
   <img src="assets/scitikz.png" width="95%" alt="SciTikZ Framework">
 </p>
 
-## Overview
+## 🧠Overview
 
 The core contribution of this work is a dual self-consistency reinforcement learning framework for image-to-TikZ program synthesis. The framework integrates three complementary reward signals.
 
-#### Compilation Reward
+#### ✅Compilation Reward
 
 Generated LaTeX/TikZ code is first compiled in a sandbox environment. Successfully compiled code receives a positive reward, while invalid or non-executable code is penalized. This encourages the model to generate complete, self-contained, and compilable TikZ programs.
 
-#### Visual Consistency Reward
+#### 👁️Visual Consistency Reward
 
 For successfully compiled code, the rendered image is compared with the input scientific graphic. We use:
 
@@ -60,7 +61,7 @@ For successfully compiled code, the rendered image is compared with the input sc
 
 This reward guides the model toward producing code that renders visually faithful scientific diagrams.
 
-#### Code Self-Consistency Reward
+#### 🔁Code Self-Consistency Reward
 
 To improve structural robustness and reduce visually plausible but degenerate code, we introduce a round-trip self-consistency mechanism:
 
@@ -75,7 +76,7 @@ The generated code and reconstructed code are compared using:
 
 This encourages the model to generate TikZ code that is not only visually accurate but also structurally stable, editable, and reusable.
 
-## Main Results
+## 📊Main Results
 
 <p align="center">
   <img src="assets/main_results.png" width="95%" alt="Main Results">
@@ -83,7 +84,7 @@ This encourages the model to generate TikZ code that is not only visually accura
 
 SciTikZer achieves strong performance on scientific graphics program synthesis, improving both compilation success rate and visual fidelity compared with general-purpose MLLMs and task-specific Image-to-TikZ baselines.
 
-## Qualitative Examples
+## 🖼️Qualitative Examples
 
 <p align="center">
   <img src="assets/case.png" width="95%" alt="Qualitative Examples">
@@ -91,7 +92,7 @@ SciTikZer achieves strong performance on scientific graphics program synthesis, 
 
 The qualitative examples show that SciTikZer better preserves geometric layout, symbolic structures, and fine-grained spatial relations in complex scientific graphics.  
 
-## Citation
+## 📚Citation
 
 If you find this work useful, please cite:
 
@@ -107,6 +108,6 @@ If you find this work useful, please cite:
 }
 ```
 
-## Acknowledgments
+## 🙏Acknowledgments
 
 We thank the developers of EasyR1, verl, LLaMA-Factory, Hugging Face Transformers, CrystalBLEU, LPIPS, SigLIP, and related open-source tools for providing the infrastructure and evaluation components used in this work.
