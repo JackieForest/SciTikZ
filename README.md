@@ -34,6 +34,8 @@ Scientific Graphics Program Synthesis via Dual Self-Consistency Reinforcement Le
   </a>
 </p>
 
+🎉🎉🎉 SciTikZ is accepted by ACM MM 2026!
+
 ## 📌Introduction
 
 This repository provides the implementation, data processing, training, and evaluation code for **SciTikZ**, a framework for synthesizing executable LaTeX/TikZ code from scientific graphics images.
