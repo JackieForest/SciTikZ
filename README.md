@@ -34,7 +34,7 @@ Scientific Graphics Program Synthesis via Dual Self-Consistency Reinforcement Le
   </a>
 </p>
 
-🎉🎉🎉 SciTikZ is accepted by ACM MM 2026 Oral!
+🎉🎉🎉 SciTikZ is accepted by ACM MM 2026 (Oral)!
 
 ## 📌Introduction
 
