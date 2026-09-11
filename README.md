@@ -99,14 +99,11 @@ The qualitative examples show that SciTikZer better preserves geometric layout, 
 If you find this work useful, please cite:
 
 ```bibtex
-@misc{lin2026scientificgraphicsprogramsynthesis,
-  title         = {Scientific Graphics Program Synthesis via Dual Self-Consistency Reinforcement Learning},
-  author        = {Juekai Lin and Yun Zhu and Honglin Lin and Sijing Li and Tianwei Lin and Zheng Liu and Xiaoyang Wang and Wenqiao Zhang and Lijun Wu},
-  year          = {2026},
-  eprint        = {2604.06079},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.CV},
-  url           = {https://arxiv.org/abs/2604.06079}
+@article{lin2026scientific,
+  title={Scientific graphics program synthesis via dual self-consistency reinforcement learning},
+  author={Lin, Juekai and Zhu, Yun and Lin, Honglin and Li, Sijing and Lin, Tianwei and Liu, Zheng and Wang, Xiaoyang and Zhang, Wenqiao and Wu, Lijun},
+  journal={arXiv preprint arXiv:2604.06079},
+  year={2026}
 }
 ```
 
